@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Jsupa DIY Home</h1>
+  <p>Welcome to Jsupa DIY, a website developed by <em>Jsupa(Github - johnrmremi)</em>!</p>
+  <h2>Main content</h2>
+  <p>The blog has the following record counts:</p>
+  <ul>
+    <li><strong>Posts:</strong> {{ num_posts }}</li>
+    <li><strong>Comments:</strong> {{ num_comments }}</li>
+    <li><strong>Bloggers:</strong> {{ num_bloggers }}</li>
+  </ul>
+  <!-- <p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p> -->
+{% endblock %}
