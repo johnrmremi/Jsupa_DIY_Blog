@@ -13,7 +13,7 @@ class PostInline(admin.TabularInline):
     extra = 0
 # Define the admin class
 class BloggerAdmin(admin.ModelAdmin):
-    list_display = ('blogger_name', 'display_bio_reduced')
+    list_display = ('author', 'display_bio_reduced')
     inlines = [PostInline]
 
 # Register the admin class with the associated model

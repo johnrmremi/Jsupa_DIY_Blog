@@ -66,11 +66,11 @@ class Post(models.Model):
 
 class Blogger(models.Model):
     """Model representing an author(blogger)."""
-    blogger_name = models.CharField('name',max_length=100)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     bio = models.TextField(max_length=500, help_text='Enter the biography about the blogger')
 
     class Meta:
-        ordering = ['blogger_name']
+        ordering = ['author']
 
     def display_bio_reduced(self):
         """Create a string for the bio. This is required to display the first 100 words of blogger biography in the admin interface."""
@@ -88,4 +88,4 @@ class Blogger(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.blogger_name}'
+        return f'{self.author}'

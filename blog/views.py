@@ -1,3 +1,4 @@
+from django.http import request
 from django.shortcuts import render
 
 # Create your views here.
@@ -61,4 +62,39 @@ class BlogsByBloggerListView(PermissionRequiredMixin, generic.ListView):
     paginate_by = 5 
 
     def get_queryset(self):
-        return Post.objects.all()
+        return Post.objects.filter(blogger__author = self.request.user)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
