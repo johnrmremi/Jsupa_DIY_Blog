@@ -7,12 +7,11 @@
     <ul>
         {% for blog in post_list %}
             <li>
-                <a href="{{ blog.get_absolute_url }}">{{blog.title}}</a> ({{ blog.date_of_post }}) - {% if perms.blog.can_view_blogs %}<a href="">Edit</a>  {% endif %}
+                <a href="{{ blog.get_absolute_url }}">{{blog.title}}</a> ({{ blog.date_of_post }}) - <a href="">Edit</a>
             </li>
         {% endfor %}
     </ul>
-
     {% else %}
-      <p>There are no books borrowed.</p>
+      <p>You have no posted blogs.</p>
     {% endif %}
 {% endblock %}s
