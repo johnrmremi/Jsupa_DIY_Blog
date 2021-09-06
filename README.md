@@ -2,3 +2,5 @@
 DIY Blog written in django
 
 I love technology
+
+I love universe ...

@@ -7,11 +7,12 @@
     <ul>
         {% for blog in post_list %}
             <li>
-                <a href="{{ blog.get_absolute_url }}">{{blog.title}}</a> ({{ blog.date_of_post }}) - <a href="">Edit</a>
+                <a href="{{ blog.get_absolute_url }}">{{blog.title}}</a> ({{ blog.date_of_post }}) - <a href="{% url 'blog-update' blog.id %}">update</a> / <a href="{% url 'blog-delete' blog.id %}">delete</a>
             </li>
         {% endfor %}
     </ul>
     {% else %}
       <p>You have no posted blogs.</p>
     {% endif %}
+    <a href="{% url 'blog-create' %}">Add new blog</a>
 {% endblock %}s
