@@ -13,4 +13,7 @@
   {% else %}
     <p>There are no posts in the blog.</p>
   {% endif %}
+  
+  {% if perms.blog.can_view_blogs %}<hr><a href="{% url 'blog-create' %}">Add a post</a><hr>{% endif %}
+  
 {% endblock %}
