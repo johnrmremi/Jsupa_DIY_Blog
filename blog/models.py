@@ -10,7 +10,7 @@ class Comment(models.Model):
     content = models.TextField(max_length=1000, help_text='Enter the comment of a post')
     post = models.ForeignKey('Post', on_delete=models.RESTRICT, null=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    date_of_comment = models.DateField(null=True, blank=True)
+    date_of_comment = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         ordering = ['date_of_comment']
