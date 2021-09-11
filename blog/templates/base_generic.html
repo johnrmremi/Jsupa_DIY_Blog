@@ -29,8 +29,7 @@
           <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
         {% endif %}
       </ul>
-
-      {% if perms.blog.can_view_blogs %}
+      {% if perms.blog.can_add_and_update_and_delete_blog %}
           <hr />
           <ul class="sidebar-nav">
           <li>Blogger</li>

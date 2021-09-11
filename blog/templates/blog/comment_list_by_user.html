@@ -8,13 +8,13 @@
 
       {% for comment in comment_list %}
         <li>
-            <a href="{% url 'blog-detail' comment.post.pk %}">{{comment.display_comment_reduced}}</a> ({{ comment.date_of_comment }}) - <a href="{% url 'comment-update' comment.id %}">update</a> / <a href="{% url 'comment-delete' comment.id %}">delete</a>
+            <a href="{% url 'blog-detail' comment.blog.pk %}">{{comment.display_short_comment_description}}</a> ({{ comment.post_date }}) - <a href="{% url 'comment-update' comment.id %}">update</a> / <a href="{% url 'comment-delete' comment.id %}">delete</a>
         </li>
     
       {% endfor %}
     </ul>
 
     {% else %}
-      <p>You have no comments for this blog posts.</p>
+      <p><a href="{% url 'blogs' %}">Add your comments for these blog posts.</a></p>
     {% endif %}
 {% endblock %}

@@ -5,7 +5,7 @@ import datetime
 
 # Create your views here.
 
-from .models import Post, Blogger, Comment
+from .models import Blog, Blogger, Comment
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -17,7 +17,7 @@ def index(request):
     """View function for home page of site."""
 
     # Generate counts of some of the main objects
-    num_posts = Post.objects.all().count()
+    num_blogs = Blog.objects.all().count()
     num_comments = Comment.objects.all().count()
 
     # The 'all()' is implied by default.
@@ -28,7 +28,7 @@ def index(request):
     request.session['num_visits'] = num_visits + 1
 
     context = {
-        'num_posts': num_posts,
+        'num_blogs': num_blogs,
         'num_comments': num_comments,
         'num_bloggers': num_bloggers,
         'num_visits': num_visits,
@@ -36,12 +36,12 @@ def index(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context)
 
-class PostListView(generic.ListView):
-    model = Post
+class BlogListView(generic.ListView):
+    model = Blog
     paginate_by = 5
 
-class PostDetailView(generic.DetailView):
-    model = Post
+class BlogDetailView(generic.DetailView):
+    model = Blog
 
 class BloggerListView(generic.ListView):
     model = Blogger
@@ -60,18 +60,18 @@ class CommentsByUserListView(LoginRequiredMixin,generic.ListView):
 
 class BlogsByBloggerListView(PermissionRequiredMixin, generic.ListView):
     """Generic class-based view listing bloggs for of current blogger."""
-    permission_required = 'blog.can_view_blogs'
-    model = Post
+    permission_required = 'blog.can_add_and_update_and_delete_blog'
+    model = Blog
     template_name ='blog/blog_list_by_blogger.html'
     paginate_by = 5 
 
     def get_queryset(self):
-        return Post.objects.filter(blogger__author = self.request.user)
+        return Blog.objects.filter(blogger__author = self.request.user)
 
 class CommentCreate(LoginRequiredMixin, CreateView):
     """ Form for adding a blog comment. Requires login. """
     model = Comment
-    fields = ['content']
+    fields = ['description']
 
     def get_context_data(self, **kwargs):
         """
@@ -81,7 +81,7 @@ class CommentCreate(LoginRequiredMixin, CreateView):
         context = super(CommentCreate, self).get_context_data(**kwargs)
         # Get the blog from id and add it to the context
         # context['blog'] = 'get_object_or'
-        context['blog'] = get_object_or_404(Post, pk = self.kwargs['pk'])
+        context['blog'] = get_object_or_404(Blog, pk = self.kwargs['pk'])
         return context
 
     def form_valid(self, form):
@@ -91,10 +91,10 @@ class CommentCreate(LoginRequiredMixin, CreateView):
         # Add logged-in user as author of comment
         form.instance.author = self.request.user
         # Associate comment with blog based on passed id
-        form.instance.post=get_object_or_404(Post, pk = self.kwargs['pk'])
+        form.instance.blog=get_object_or_404(Blog, pk = self.kwargs['pk'])
 
         # Adding date of posting to be this time
-        form.instance.date_of_comment = datetime.datetime.now()
+        form.instance.post_date = datetime.datetime.now()
         # Call super-class form validation behavior
         return super(CommentCreate, self).form_valid(form)
 
@@ -106,8 +106,15 @@ class CommentCreate(LoginRequiredMixin, CreateView):
 
 class CommentUpdate(LoginRequiredMixin, UpdateView):
     model = Comment
-    fields = ['content']
-    template_name ='blog/user_comment_update.html'
+    fields = ['description']
+    template_name ='blog/comment_update.html'
+
+    def form_valid(self, form):
+
+        # Updating date of posting to be this time
+        form.instance.post_date = datetime.datetime.now()
+        # Call super-class form validation behavior
+        return super(CommentUpdate, self).form_valid(form)
     
     success_url = reverse_lazy('my-comments')
 
@@ -116,9 +123,10 @@ class CommentDelete(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('my-comments')
 
 
-class PostCreate(CreateView):
-    model = Post
-    fields = ['title', 'content']
+class BlogCreate(PermissionRequiredMixin, CreateView):
+    permission_required = 'blog.can_add_and_update_and_delete_blog'
+    model = Blog
+    fields = ['name', 'description']
     
     def form_valid(self, form):
         """
@@ -129,29 +137,31 @@ class PostCreate(CreateView):
         form.instance.blogger=get_object_or_404(Blogger, author = self.request.user)
 
         # Adding date of posting to be this time
-        form.instance.date_of_post = datetime.datetime.now()
+        form.instance.post_date = datetime.datetime.now()
         # Call super-class form validation behavior
-        return super(PostCreate, self).form_valid(form)
+        return super(BlogCreate, self).form_valid(form)
 
     success_url = reverse_lazy('my-blogs')
 
-class PostUpdate(UpdateView):
-    model = Post
-    fields = ['title', 'content'] 
+class BlogUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = 'blog.can_add_and_update_and_delete_blog'
+    model = Blog
+    fields = ['name', 'description'] 
 
     def form_valid(self, form):
 
         form.instance.blogger=get_object_or_404(Blogger, author = self.request.user)
 
         # Adding date of posting to be this time
-        form.instance.date_of_post = datetime.datetime.now()
+        form.instance.post_date = datetime.datetime.now()
         # Call super-class form validation behavior
-        return super(PostUpdate, self).form_valid(form)
+        return super(BlogUpdate, self).form_valid(form)
 
     success_url = reverse_lazy('my-blogs')
 
-class PostDelete(DeleteView):
-    model = Post
+class BlogDelete(PermissionRequiredMixin, DeleteView):
+    permission_required = 'blog.can_add_and_update_and_delete_blog'
+    model = Blog
     success_url = reverse_lazy('my-blogs')
 
     

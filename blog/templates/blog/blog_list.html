@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>All blogs</h1>
+  {% if blog_list %}
+  <ul>
+    {% for blog in blog_list %}
+      <li>
+        <a href="{{ blog.get_absolute_url }}">{{ blog.name }}</a> ({{ blog.post_date }}) - <a href="{{ blog.blogger.get_absolute_url }}">{{blog.blogger}}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There is no blogs.</p>
+  {% endif %}
+  {% if perms.blog.can_add_and_update_and_delete_blog %}<hr><a href="{% url 'blog-create' %}">Add a blog</a><hr>{% endif %}
+  
+{% endblock %}
