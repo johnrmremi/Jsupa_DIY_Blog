@@ -3,16 +3,16 @@
 {% block content %}
     <h1>My Blogs</h1>
 
-    {% if post_list %}
+    {% if blog_list %}
     <ul>
-        {% for blog in post_list %}
+        {% for blog in blog_list %}
             <li>
-                <a href="{{ blog.get_absolute_url }}">{{blog.title}}</a> ({{ blog.date_of_post }}) - <a href="{% url 'blog-update' blog.id %}">update</a> / <a href="{% url 'blog-delete' blog.id %}">delete</a>
+                <a href="{{ blog.get_absolute_url }}">{{blog.name}}</a> ({{ blog.post_date }}) - <a href="{% url 'blog-update' blog.id %}">update</a> / <a href="{% url 'blog-delete' blog.id %}">delete</a>
             </li>
         {% endfor %}
     </ul>
     {% else %}
-      <p>You have no posted blogs.</p>
+      <p>You have not posted any blog yet.</p>
     {% endif %}
-    <a href="{% url 'blog-create' %}">Add new blog</a>
+    <a href="{% url 'blog-create' %}">Add blog</a>
 {% endblock %}s
