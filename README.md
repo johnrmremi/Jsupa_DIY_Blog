@@ -1,19 +1,6 @@
 # Jsupa DIY Blog
 Do It Yourself Blog written in django by johnrmremi
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-I love Technology
-=======
-I love technology
->>>>>>> 3a9540720f3f7fcd1e27b607d87dc1e740aa0b65
-=======
-I love technology
-
-I love universe ...
->>>>>>> blog-forms
-=======
 This web application creates an very basic blog site using Django. The site allows blog administators to register new users and assign them to the groups as bloggers(blogger can add, edit and delete their own blog posts) or normal_users(who can create, edit and delete thier comments). Normal users can only comment when they are logged in but only bloggers can create blogs and comments. Any user can list all bloggers, all blogs, and detail for bloggers and blogs (including comments for each blog).
 
 # Quick Start
